@@ -105,11 +105,11 @@ Filter.prototype.filterItem = function (item, excluded) {
 }
 
 /**
- * Removes excluded keys from a document with populated subdocuments.
+ * Removes excluded keys from a document with deepPopulated subdocuments.
  * @memberof Filter
  * @param {Object} - Source document.
  * @param {Object} - Keys to filter.
- * @param {Array} opts.populate - Paths to populated subdocuments.
+ * @param {Array} opts.deepPopulate - Paths to deepPopulated subdocuments.
  * @param {String} opts.access - Access level (private, protected or public).
  * @param {Object} opts.excludedMap {} - Filtered keys for related models
  * @returns {Object} - Filtered document.
@@ -119,25 +119,25 @@ Filter.prototype.filterPopulatedItem = function (item, opts) {
     return item.map((i) => this.filterPopulatedItem(i, opts))
   }
 
-  for (let i = 0; i < opts.populate.length; i++) {
-    if (!opts.populate[i].path) {
+  for (let i = 0; i < opts.deepPopulate.length; i++) {
+    if (!opts.deepPopulate[i].path) {
       continue
     }
 
     const excluded = this.getExcluded({
       access: opts.access,
       excludedMap: opts.excludedMap,
-      modelName: detective(this.model, opts.populate[i].path)
+      modelName: detective(this.model, opts.deepPopulate[i].path)
     })
 
-    if (_.has(item, opts.populate[i].path)) {
-      this.filterItem(_.get(item, opts.populate[i].path), excluded)
+    if (_.has(item, opts.deepPopulate[i].path)) {
+      this.filterItem(_.get(item, opts.deepPopulate[i].path), excluded)
     } else {
-      const pathToArray = opts.populate[i].path.split('.').slice(0, -1).join('.')
+      const pathToArray = opts.deepPopulate[i].path.split('.').slice(0, -1).join('.')
 
       if (_.has(item, pathToArray)) {
         const array = _.get(item, pathToArray)
-        const pathToObject = opts.populate[i].path.split('.').slice(-1).join('.')
+        const pathToObject = opts.deepPopulate[i].path.split('.').slice(-1).join('.')
 
         this.filterItem(_.map(array, pathToObject), excluded)
       }
@@ -155,7 +155,7 @@ Filter.prototype.filterPopulatedItem = function (item, opts) {
  * @param {Object} - Options.
  * @param {String} opts.access {public} - Access level (private, protected or public).
  * @param {Object} opts.excludedMap {} - Filtered keys for related models
- * @param {Array} opts.populate - Paths to populated subdocuments.
+ * @param {Array} opts.deepPopulate - Paths to deepPopulated subdocuments.
  * @returns {Object} - Filtered document.
  */
 Filter.prototype.filterObject = function (resource, opts = {}) {
@@ -168,7 +168,7 @@ Filter.prototype.filterObject = function (resource, opts = {}) {
 
   let filtered = this.filterItem(resource, this.getExcluded(opts))
 
-  if (opts.populate) {
+  if (opts.deepPopulate) {
     this.filterPopulatedItem(filtered, opts)
   }
 

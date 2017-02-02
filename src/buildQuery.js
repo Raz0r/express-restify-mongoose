@@ -27,8 +27,8 @@ module.exports = function (options) {
         query.sort(queryOptions.sort)
       }
 
-      if (queryOptions.populate) {
-        query.populate(queryOptions.populate)
+      if (queryOptions.deepPopulate) {
+        query.deepPopulate(queryOptions.deepPopulate)
       }
 
       if (queryOptions.select) {

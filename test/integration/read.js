@@ -865,12 +865,12 @@ module.exports = function (createFn, setup, dismantle) {
       })
     })
 
-    describe('populate', () => {
-      it('GET /Invoice?populate=customer 200', (done) => {
+    describe('deepPopulate', () => {
+      it('GET /Invoice?deepPopulate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            populate: 'customer'
+            deepPopulate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -887,11 +887,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?populate={path:"customer"} 200', (done) => {
+      it('GET /Invoice?deepPopulate={path:"customer"} 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            populate: JSON.stringify({
+            deepPopulate: JSON.stringify({
               path: 'customer'
             })
           },
@@ -910,11 +910,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?populate=[{path:"customer"}] 200', (done) => {
+      it('GET /Invoice?deepPopulate=[{path:"customer"}] 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            populate: JSON.stringify([{
+            deepPopulate: JSON.stringify([{
               path: 'customer'
             }])
           },
@@ -933,11 +933,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer?populate=favorites.purchase.item 200 - nested field', (done) => {
+      it('GET /Customer?deepPopulate=favorites.purchase.item 200 - nested field', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer`,
           qs: {
-            populate: 'favorites.purchase.item'
+            deepPopulate: 'favorites.purchase.item'
           },
           json: true
         }, (err, res, body) => {
@@ -955,11 +955,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?populate=customer.account 200 - ignore deep populate', (done) => {
+      it('GET /Invoice?deepPopulate=customer.account 200 - ignore deep deepPopulate', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            populate: 'customer.account'
+            deepPopulate: 'customer.account'
           },
           json: true
         }, (err, res, body) => {
@@ -974,11 +974,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?populate=evilCustomer 200 - ignore unknown field', (done) => {
+      it('GET /Invoice?deepPopulate=evilCustomer 200 - ignore unknown field', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            populate: 'evilCustomer'
+            deepPopulate: 'evilCustomer'
           },
           json: true
         }, (err, res, body) => {
@@ -990,11 +990,11 @@ module.exports = function (createFn, setup, dismantle) {
       })
 
       describe('with select', () => {
-        it('GET Invoices?populate=customer&select=amount 200 - only include amount and customer document', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=amount 200 - only include amount and customer document', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: 'amount'
             },
             json: true
@@ -1014,11 +1014,11 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        it('GET Invoices?populate=customer&select=amount,customer.name 200 - only include amount and customer name', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=amount,customer.name 200 - only include amount and customer name', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: 'amount,customer.name'
             },
             json: true
@@ -1038,11 +1038,11 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        it('GET Invoices?populate=customer&select=customer.name 200 - include all invoice fields, but only include customer name', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=customer.name 200 - include all invoice fields, but only include customer name', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: 'customer.name'
             },
             json: true
@@ -1062,11 +1062,11 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        it('GET Invoices?populate=customer&select=-customer.name 200 - include all invoice and fields, but exclude customer name', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=-customer.name 200 - include all invoice and fields, but exclude customer name', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: '-customer.name'
             },
             json: true
@@ -1086,11 +1086,11 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        it('GET Invoices?populate=customer&select=amount,-customer.-id,customer.name 200 - only include amount and customer name and exclude customer _id', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=amount,-customer.-id,customer.name 200 - only include amount and customer name and exclude customer _id', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: 'amount,-customer._id,customer.name'
             },
             json: true
@@ -1110,11 +1110,11 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        it('GET Invoices?populate=customer&select=customer.name,customer.age 200 - only include customer name and age', (done) => {
+        it('GET Invoices?deepPopulate=customer&select=customer.name,customer.age 200 - only include customer name and age', (done) => {
           request.get({
             url: `${testUrl}/api/v1/Invoice`,
             qs: {
-              populate: 'customer',
+              deepPopulate: 'customer',
               select: 'customer.name,customer.age'
             },
             json: true

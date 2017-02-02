@@ -344,17 +344,17 @@ describe('prepareQuery', () => {
     sinon.assert.notCalled(options.onError)
   })
 
-  it('calls next when populate key is a string', () => {
+  it('calls next when deepPopulate key is a string', () => {
     let req = {
       query: {
-        populate: 'foo'
+        deepPopulate: 'foo'
       }
     }
 
     prepareQuery(options)(req, {}, next)
 
     assert.deepEqual(req._ermQueryOptions, {
-      populate: [{
+      deepPopulate: [{
         path: 'foo'
       }]
     })
@@ -463,18 +463,18 @@ describe('prepareQuery', () => {
     })
   })
 
-  describe('populate', () => {
-    it('parses a string to populate a path', () => {
+  describe('deepPopulate', () => {
+    it('parses a string to deepPopulate a path', () => {
       let req = {
         query: {
-          populate: 'foo'
+          deepPopulate: 'foo'
         }
       }
 
       prepareQuery(options)(req, {}, next)
 
       assert.deepEqual(req._ermQueryOptions, {
-        populate: [{
+        deepPopulate: [{
           path: 'foo'
         }]
       })
@@ -483,17 +483,17 @@ describe('prepareQuery', () => {
       sinon.assert.notCalled(options.onError)
     })
 
-    it('parses a string to populate multiple paths', () => {
+    it('parses a string to deepPopulate multiple paths', () => {
       let req = {
         query: {
-          populate: 'foo,bar'
+          deepPopulate: 'foo,bar'
         }
       }
 
       prepareQuery(options)(req, {}, next)
 
       assert.deepEqual(req._ermQueryOptions, {
-        populate: [{
+        deepPopulate: [{
           path: 'foo'
         }, {
           path: 'bar'
@@ -504,10 +504,10 @@ describe('prepareQuery', () => {
       sinon.assert.notCalled(options.onError)
     })
 
-    it('accepts an object to populate a path', () => {
+    it('accepts an object to deepPopulate a path', () => {
       let req = {
         query: {
-          populate: {
+          deepPopulate: {
             path: 'foo.bar',
             select: 'baz',
             match: { 'qux': 'quux' },
@@ -519,7 +519,7 @@ describe('prepareQuery', () => {
       prepareQuery(options)(req, {}, next)
 
       assert.deepEqual(req._ermQueryOptions, {
-        populate: [{
+        deepPopulate: [{
           path: 'foo.bar',
           select: 'baz',
           match: { 'qux': 'quux' },
@@ -531,10 +531,10 @@ describe('prepareQuery', () => {
       sinon.assert.notCalled(options.onError)
     })
 
-    it('parses a string to populate and select fields', () => {
+    it('parses a string to deepPopulate and select fields', () => {
       let req = {
         query: {
-          populate: 'foo',
+          deepPopulate: 'foo',
           select: 'foo.bar,foo.baz'
         }
       }
@@ -542,7 +542,7 @@ describe('prepareQuery', () => {
       prepareQuery(options)(req, {}, next)
 
       assert.deepEqual(req._ermQueryOptions, {
-        populate: [{
+        deepPopulate: [{
           path: 'foo',
           select: 'bar baz'
         }]

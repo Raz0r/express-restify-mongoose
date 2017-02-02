@@ -51,44 +51,44 @@ module.exports = function (options) {
       }
     }
 
-    if (queryOptions.populate) {
-      if (_.isString(queryOptions.populate)) {
-        let populate = queryOptions.populate.split(',')
-        queryOptions.populate = []
+    if (queryOptions.deepPopulate) {
+      if (_.isString(queryOptions.deepPopulate)) {
+        let deepPopulate = queryOptions.deepPopulate.split(',')
+        queryOptions.deepPopulate = []
 
-        for (let i = 0, length = populate.length; i < length; i++) {
-          queryOptions.populate.push({
-            path: populate[i]
+        for (let i = 0, length = deepPopulate.length; i < length; i++) {
+          queryOptions.deepPopulate.push({
+            path: deepPopulate[i]
           })
 
           for (let key in queryOptions.select) {
-            if (key.indexOf(populate[i] + '.') === 0) {
-              if (queryOptions.populate[i].select) {
-                queryOptions.populate[i].select += ' '
+            if (key.indexOf(deepPopulate[i] + '.') === 0) {
+              if (queryOptions.deepPopulate[i].select) {
+                queryOptions.deepPopulate[i].select += ' '
               } else {
-                queryOptions.populate[i].select = ''
+                queryOptions.deepPopulate[i].select = ''
               }
 
               if (queryOptions.select[key] === 0) {
-                queryOptions.populate[i].select += '-'
+                queryOptions.deepPopulate[i].select += '-'
               }
 
-              queryOptions.populate[i].select += key.substring(populate[i].length + 1)
+              queryOptions.deepPopulate[i].select += key.substring(deepPopulate[i].length + 1)
               delete queryOptions.select[key]
             }
           }
 
-          // If other specific fields are selected, add the populated field
+          // If other specific fields are selected, add the deepPopulated field
           if (queryOptions.select) {
-            if (Object.keys(queryOptions.select).length > 0 && !queryOptions.select[populate[i]]) {
-              queryOptions.select[populate[i]] = 1
+            if (Object.keys(queryOptions.select).length > 0 && !queryOptions.select[deepPopulate[i]]) {
+              queryOptions.select[deepPopulate[i]] = 1
             } else if (Object.keys(queryOptions.select).length === 0) {
               delete queryOptions.select
             }
           }
         }
-      } else if (!_.isArray(queryOptions.populate)) {
-        queryOptions.populate = [queryOptions.populate]
+      } else if (!_.isArray(queryOptions.deepPopulate)) {
+        queryOptions.deepPopulate = [queryOptions.deepPopulate]
       }
     }
 
@@ -96,7 +96,7 @@ module.exports = function (options) {
   }
 
   return function (req, res, next) {
-    const whitelist = ['distinct', 'limit', 'populate', 'query', 'select', 'skip', 'sort']
+    const whitelist = ['distinct', 'limit', 'deepPopulate', 'query', 'select', 'skip', 'sort']
 
     req._ermQueryOptions = {}
 
@@ -111,7 +111,7 @@ module.exports = function (options) {
         } catch (e) {
           return errorHandler(req, res, next)(new Error(`invalid_json_${key}`))
         }
-      } else if (key === 'populate' || key === 'select' || key === 'sort') {
+      } else if (key === 'deepPopulate' || key === 'select' || key === 'sort') {
         try {
           req._ermQueryOptions[key] = JSON.parse(req.query[key])
         } catch (e) {

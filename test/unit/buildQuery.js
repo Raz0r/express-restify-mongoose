@@ -10,7 +10,7 @@ describe('buildQuery', () => {
     limit: sinon.spy(),
     sort: sinon.spy(),
     select: sinon.spy(),
-    populate: sinon.spy(),
+    deepPopulate: sinon.spy(),
     distinct: sinon.spy()
   }
 
@@ -43,7 +43,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.limit)
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.select)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
@@ -63,7 +63,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.limit)
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.select)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
@@ -83,7 +83,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.skip)
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.select)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
@@ -105,7 +105,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.skip)
         sinon.assert.notCalled(query.sort)
         sinon.assert.notCalled(query.select)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
@@ -185,7 +185,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.skip)
         sinon.assert.notCalled(query.limit)
         sinon.assert.notCalled(query.select)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
@@ -211,17 +211,17 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.skip)
         sinon.assert.notCalled(query.limit)
         sinon.assert.notCalled(query.sort)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.distinct)
         assert.equal(result, query)
       })
     })
   })
 
-  describe('populate', () => {
-    it('accepts an object wrapped in an array to populate a path', () => {
+  describe('deepPopulate', () => {
+    it('accepts an object wrapped in an array to deepPopulate a path', () => {
       let queryOptions = {
-        populate: [{
+        deepPopulate: [{
           path: 'foo.bar',
           select: 'baz',
           match: { 'qux': 'quux' },
@@ -230,8 +230,8 @@ describe('buildQuery', () => {
       }
 
       return buildQuery({})(query, queryOptions).then((result) => {
-        sinon.assert.calledOnce(query.populate)
-        sinon.assert.calledWithExactly(query.populate, [{
+        sinon.assert.calledOnce(query.deepPopulate)
+        sinon.assert.calledWithExactly(query.deepPopulate, [{
           path: 'foo.bar',
           select: 'baz',
           match: { 'qux': 'quux' },
@@ -261,7 +261,7 @@ describe('buildQuery', () => {
         sinon.assert.notCalled(query.skip)
         sinon.assert.notCalled(query.limit)
         sinon.assert.notCalled(query.sort)
-        sinon.assert.notCalled(query.populate)
+        sinon.assert.notCalled(query.deepPopulate)
         sinon.assert.notCalled(query.select)
         assert.equal(result, query)
       })
