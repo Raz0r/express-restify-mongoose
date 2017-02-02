@@ -96,7 +96,7 @@ module.exports = function (options) {
   }
 
   return function (req, res, next) {
-    const whitelist = ['distinct', 'limit', 'populate', 'query', 'select', 'skip', 'sort']
+    const whitelist = ['deepPopulate', 'distinct', 'limit', 'populate', 'query', 'select', 'skip', 'sort']
 
     req._ermQueryOptions = {}
 

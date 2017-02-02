@@ -31,6 +31,10 @@ module.exports = function (options) {
         query.populate(queryOptions.populate)
       }
 
+      if (queryOptions.deepPopulate) {
+        query.deepPopulate(queryOptions.deepPopulate)
+      }
+
       if (queryOptions.select) {
         query.select(queryOptions.select)
       }
