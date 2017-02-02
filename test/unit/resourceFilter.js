@@ -219,13 +219,13 @@ describe('resourceFilter', () => {
 
     it('does nothing', () => {
       let item = invoiceFilter.filterPopulatedItem(null, {
-        deepPopulate: []
+        populate: []
       })
 
       assert.equal(item, null)
     })
 
-    it('removes keys in deepPopulated document', () => {
+    it('removes keys in populated document', () => {
       let invoice = {
         customer: {
           name: 'John'
@@ -234,7 +234,7 @@ describe('resourceFilter', () => {
       }
 
       invoiceFilter.filterPopulatedItem(invoice, {
-        deepPopulate: [{
+        populate: [{
           path: 'customer'
         }],
         excludedMap: {
@@ -248,7 +248,7 @@ describe('resourceFilter', () => {
       })
     })
 
-    it('removes keys in array with deepPopulated document', () => {
+    it('removes keys in array with populated document', () => {
       let invoices = [{
         customer: {
           name: 'John'
@@ -262,7 +262,7 @@ describe('resourceFilter', () => {
       }]
 
       invoiceFilter.filterPopulatedItem(invoices, {
-        deepPopulate: [{
+        populate: [{
           path: 'customer'
         }],
         excludedMap: {
@@ -285,7 +285,7 @@ describe('resourceFilter', () => {
       }
 
       invoiceFilter.filterPopulatedItem(invoice, {
-        deepPopulate: [{
+        populate: [{
           path: 'customer'
         }],
         excludedMap: {
@@ -298,7 +298,7 @@ describe('resourceFilter', () => {
       })
     })
 
-    it('skip when deepPopulate path is undefined', () => {
+    it('skip when populate path is undefined', () => {
       let invoice = {
         customer: {
           name: 'John'
@@ -307,7 +307,7 @@ describe('resourceFilter', () => {
       }
 
       invoiceFilter.filterPopulatedItem(invoice, {
-        deepPopulate: [{}],
+        populate: [{}],
         excludedMap: {
           Customer: customerFilter.filteredKeys
         }
@@ -321,7 +321,7 @@ describe('resourceFilter', () => {
       })
     })
 
-    it('removes keys in deepPopulated document array', () => {
+    it('removes keys in populated document array', () => {
       let invoice = {
         products: [{
           name: 'Squirt Gun'
@@ -332,7 +332,7 @@ describe('resourceFilter', () => {
       }
 
       invoiceFilter.filterPopulatedItem(invoice, {
-        deepPopulate: [{
+        populate: [{
           path: 'products'
         }],
         excludedMap: {
@@ -346,7 +346,7 @@ describe('resourceFilter', () => {
       })
     })
 
-    it('removes keys in deepPopulated document in array', () => {
+    it('removes keys in populated document in array', () => {
       let customer = {
         name: 'John',
         purchases: [{
@@ -357,7 +357,7 @@ describe('resourceFilter', () => {
       }
 
       customerFilter.filterPopulatedItem(customer, {
-        deepPopulate: [{
+        populate: [{
           path: 'purchases.item'
         }],
         excludedMap: {

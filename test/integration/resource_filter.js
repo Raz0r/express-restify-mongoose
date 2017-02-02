@@ -46,8 +46,8 @@ describe('Resource filter', () => {
   })
 
   describe('lean', () => {
-    describe('with deepPopulated docs', () => {
-      it('excludes fields from deepPopulated items', () => {
+    describe('with populated docs', () => {
+      it('excludes fields from populated items', () => {
         let invoice = {
           customer: {
             name: 'John',
@@ -57,7 +57,7 @@ describe('Resource filter', () => {
         }
 
         invoice = invoiceFilter.filterObject(invoice, {
-          deepPopulate: [{
+          populate: [{
             path: 'customer'
           }]
         })
@@ -65,7 +65,7 @@ describe('Resource filter', () => {
         assert.ok(invoice.customer.address === undefined, 'Customer address should be excluded')
       })
 
-      it('iterates through array of deepPopulated objects', () => {
+      it('iterates through array of populated objects', () => {
         let invoice = {
           customer: 'objectid',
           amount: 240,
@@ -79,18 +79,18 @@ describe('Resource filter', () => {
         }
 
         invoice = invoiceFilter.filterObject(invoice, {
-          deepPopulate: [{
+          populate: [{
             path: 'products'
           }]
         })
 
         invoice.products.forEach((product) => {
-          assert.ok(product.name !== undefined, 'product name should be deepPopulated')
+          assert.ok(product.name !== undefined, 'product name should be populated')
           assert.ok(product.price === undefined, 'product price should be excluded')
         })
       })
 
-      it('filters multiple deepPopulated models', () => {
+      it('filters multiple populated models', () => {
         let invoice = {
           customer: {
             name: 'John',
@@ -107,22 +107,22 @@ describe('Resource filter', () => {
         }
 
         invoice = invoiceFilter.filterObject(invoice, {
-          deepPopulate: [{
+          populate: [{
             path: 'customer'
           }, {
             path: 'products'
           }]
         })
-        assert.equal(invoice.customer.name, 'John', 'customer name should be deepPopulated')
+        assert.equal(invoice.customer.name, 'John', 'customer name should be populated')
         assert.ok(invoice.customer.address === undefined, 'customer address should be excluded')
 
         invoice.products.forEach((product) => {
-          assert.ok(product.name !== undefined, 'product name should be deepPopulated')
+          assert.ok(product.name !== undefined, 'product name should be populated')
           assert.ok(product.price === undefined, 'product price should be excluded')
         })
       })
 
-      it.skip('filters nested deepPopulated docs', () => {
+      it.skip('filters nested populated docs', () => {
         let customer = {
           name: 'John',
           favorites: {
@@ -134,7 +134,7 @@ describe('Resource filter', () => {
         }
 
         customer = customerFilter.filterObject(customer, {
-          deepPopulate: [{
+          populate: [{
             path: 'favorites.purchase.item'
           }]
         })
@@ -145,7 +145,7 @@ describe('Resource filter', () => {
         assert.ok(customer.favorites.purchase.number === undefined, 'Purchased item number should be excluded')
       })
 
-      it('filters embedded array of deepPopulated docs', () => {
+      it('filters embedded array of populated docs', () => {
         let customer = {
           name: 'John',
           purchases: [{
@@ -161,7 +161,7 @@ describe('Resource filter', () => {
         }
 
         customer = customerFilter.filterObject(customer, {
-          deepPopulate: [{
+          populate: [{
             path: 'purchases.item'
           }]
         })
@@ -169,7 +169,7 @@ describe('Resource filter', () => {
         customer.purchases.forEach((p) => {
           assert.ok(p.number === undefined, 'Purchase number should be excluded')
           assert.ok(p.item, 'Item should be included')
-          assert.ok(p.item.name !== undefined, 'Item name should be deepPopulated')
+          assert.ok(p.item.name !== undefined, 'Item name should be populated')
           assert.ok(p.item.price === undefined, 'Item price should be excluded')
         })
       })
@@ -225,7 +225,7 @@ describe('Resource filter', () => {
       })
     })
 
-    describe('with deepPopulated docs', () => {
+    describe('with populated docs', () => {
       let products
       let invoiceId
       let customerId
@@ -299,11 +299,11 @@ describe('Resource filter', () => {
         })
       })
 
-      it('excludes fields from deepPopulated items', (done) => {
-        db.models.Invoice.findById(invoiceId).deepPopulate('customer').exec((err, invoice) => {
+      it('excludes fields from populated items', (done) => {
+        db.models.Invoice.findById(invoiceId).populate('customer').exec((err, invoice) => {
           assert(!err, err)
           invoice = invoiceFilter.filterObject(invoice, {
-            deepPopulate: [{
+            populate: [{
               path: 'customer'
             }]
           })
@@ -314,17 +314,17 @@ describe('Resource filter', () => {
         })
       })
 
-      it('iterates through array of deepPopulated objects', (done) => {
-        db.models.Invoice.findById(invoiceId).deepPopulate('products').exec((err, invoice) => {
+      it('iterates through array of populated objects', (done) => {
+        db.models.Invoice.findById(invoiceId).populate('products').exec((err, invoice) => {
           assert(!err, err)
           invoice = invoiceFilter.filterObject(invoice, {
-            deepPopulate: [{
+            populate: [{
               path: 'products'
             }]
           })
 
           invoice.products.forEach((product) => {
-            assert.ok(product.name !== undefined, 'product name should be deepPopulated')
+            assert.ok(product.name !== undefined, 'product name should be populated')
             assert.ok(product.price === undefined, 'product price should be excluded')
           })
 
@@ -332,21 +332,21 @@ describe('Resource filter', () => {
         })
       })
 
-      it('filters multiple deepPopulated models', (done) => {
-        db.models.Invoice.findById(invoiceId).deepPopulate('products customer').exec((err, invoice) => {
+      it('filters multiple populated models', (done) => {
+        db.models.Invoice.findById(invoiceId).populate('products customer').exec((err, invoice) => {
           assert(!err, err)
           invoice = invoiceFilter.filterObject(invoice, {
-            deepPopulate: [{
+            populate: [{
               path: 'customer'
             }, {
               path: 'products'
             }]
           })
-          assert.equal(invoice.customer.name, 'John', 'customer name should be deepPopulated')
+          assert.equal(invoice.customer.name, 'John', 'customer name should be populated')
           assert.ok(invoice.customer.address === undefined, 'customer address should be excluded')
 
           invoice.products.forEach((product) => {
-            assert.ok(product.name !== undefined, 'product name should be deepPopulated')
+            assert.ok(product.name !== undefined, 'product name should be populated')
             assert.ok(product.price === undefined, 'product price should be excluded')
           })
 
@@ -354,11 +354,11 @@ describe('Resource filter', () => {
         })
       })
 
-      it.skip('filters nested deepPopulated docs', (done) => {
-        db.models.Customer.findById(customerId).deepPopulate('favorites.purchase.item').exec((err, customer) => {
+      it.skip('filters nested populated docs', (done) => {
+        db.models.Customer.findById(customerId).populate('favorites.purchase.item').exec((err, customer) => {
           assert(!err, err)
           customer = customerFilter.filterObject(customer, {
-            deepPopulate: [{
+            populate: [{
               path: 'favorites.purchase.item'
             }]
           })
@@ -372,18 +372,18 @@ describe('Resource filter', () => {
         })
       })
 
-      it.skip('filters embedded array of deepPopulated docs', (done) => {
-        db.models.Customer.findById(customerId).deepPopulate('purchases.item').exec((err, customer) => {
+      it.skip('filters embedded array of populated docs', (done) => {
+        db.models.Customer.findById(customerId).populate('purchases.item').exec((err, customer) => {
           assert(!err, err)
           customer = customerFilter.filterObject(customer, {
-            deepPopulate: [{
+            populate: [{
               path: 'purchases.item'
             }]
           })
 
           customer.purchases.forEach((p, i) => {
             assert.ok(p.number === undefined, 'Purchase number should be excluded')
-            assert.equal(p.item.name, products[i].name, 'Item name should be deepPopulated')
+            assert.equal(p.item.name, products[i].name, 'Item name should be populated')
             assert.ok(p.item.price === undefined, 'Item price should be excluded')
             assert.ok(p.item.department)
             assert.ok(p.item.department.code === undefined)
@@ -478,11 +478,11 @@ describe('Resource filter', () => {
       })
     })
 
-    it.skip('should filter deepPopulated from subschema', (done) => {
-      db.models.RepeatCustomer.findOne().deepPopulate('account').exec((err, doc) => {
+    it.skip('should filter populated from subschema', (done) => {
+      db.models.RepeatCustomer.findOne().populate('account').exec((err, doc) => {
         assert(!err, err)
         let customer = repeatCustFilter.filterObject(doc, {
-          deepPopulate: [{
+          populate: [{
             path: 'account'
           }]
         })
@@ -493,13 +493,13 @@ describe('Resource filter', () => {
       })
     })
 
-    it.skip('should filter deepPopulated from base schema', (done) => {
-      db.models.Customer.findOne().deepPopulate('account').exec((err, doc) => {
+    it.skip('should filter populated from base schema', (done) => {
+      db.models.Customer.findOne().populate('account').exec((err, doc) => {
         assert(!err, err)
-        doc.deepPopulate('account', (err, doc) => {
+        doc.populate('account', (err, doc) => {
           assert(!err, err)
           let customer = customerFilter.filterObject(doc, {
-            deepPopulate: [{
+            populate: [{
               path: 'account'
             }]
           })

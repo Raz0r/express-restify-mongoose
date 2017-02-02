@@ -449,7 +449,7 @@ module.exports = function (createFn, setup, dismantle) {
         }
 
         erm.serve(app, db.models.Customer, {
-          prefix: '/orangepie',
+          prefix: '/applepie',
           restify: app.isRestify
         })
 
@@ -461,9 +461,9 @@ module.exports = function (createFn, setup, dismantle) {
       dismantle(app, server, done)
     })
 
-    it('GET /orangepie/v1/Customer 200', (done) => {
+    it('GET /applepie/v1/Customer 200', (done) => {
       request.get({
-        url: `${testUrl}/orangepie/v1/Customer`
+        url: `${testUrl}/applepie/v1/Customer`
       }, (err, res, body) => {
         assert.ok(!err)
         assert.equal(res.statusCode, 200)

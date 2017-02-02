@@ -291,11 +291,11 @@ module.exports = function (createFn, setup, dismantle) {
       })
     })
 
-    it('POST /Invoice?deepPopulate=customer,products 201 - referencing customer and products', (done) => {
+    it('POST /Invoice?populate=customer,products 201 - referencing customer and products', (done) => {
       request.post({
         url: `${testUrl}/api/v1/Invoice`,
         qs: {
-          deepPopulate: 'customer,products'
+          populate: 'customer,products'
         },
         json: {
           customer: customer,

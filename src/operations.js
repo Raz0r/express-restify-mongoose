@@ -134,7 +134,7 @@ module.exports = function (model, options, excludedMap) {
   function createObject (req, res, next) {
     req.body = options.filter.filterObject(req.body || {}, {
       access: req.access,
-      deepPopulate: req._ermQueryOptions.deepPopulate
+      populate: req._ermQueryOptions.populate
     })
 
     if (model.schema.options._id) {
@@ -145,7 +145,7 @@ module.exports = function (model, options, excludedMap) {
       delete req.body[model.schema.options.versionKey]
     }
 
-    model.create(req.body).then((item) => model.deepPopulate(item, req._ermQueryOptions.deepPopulate || [])).then((item) => {
+    model.create(req.body).then((item) => model.populate(item, req._ermQueryOptions.populate || [])).then((item) => {
       req.erm.result = item
       req.erm.statusCode = 201
 
@@ -156,7 +156,7 @@ module.exports = function (model, options, excludedMap) {
   function modifyObject (req, res, next) {
     req.body = options.filter.filterObject(req.body || {}, {
       access: req.access,
-      deepPopulate: req._ermQueryOptions.deepPopulate
+      populate: req._ermQueryOptions.populate
     })
 
     delete req.body._id
@@ -165,7 +165,7 @@ module.exports = function (model, options, excludedMap) {
       delete req.body[model.schema.options.versionKey]
     }
 
-    function dedeepPopulate (src) {
+    function depopulate (src) {
       let dst = {}
 
       for (let key in src) {
@@ -186,7 +186,7 @@ module.exports = function (model, options, excludedMap) {
           if (path && path.instance === 'ObjectID') {
             dst[key] = src[key]._id
           } else {
-            dst[key] = dedeepPopulate(src[key])
+            dst[key] = depopulate(src[key])
           }
         }
 
@@ -198,7 +198,7 @@ module.exports = function (model, options, excludedMap) {
       return dst
     }
 
-    const cleanBody = moredots(dedeepPopulate(req.body))
+    const cleanBody = moredots(depopulate(req.body))
 
     if (options.findOneAndUpdate) {
       options.contextFilter(model, req, (filteredContext) => {
@@ -207,7 +207,7 @@ module.exports = function (model, options, excludedMap) {
         }, {
           new: true,
           runValidators: options.runValidators
-        }).exec().then((item) => model.deepPopulate(item, req._ermQueryOptions.deepPopulate || [])).then((item) => {
+        }).exec().then((item) => model.populate(item, req._ermQueryOptions.populate || [])).then((item) => {
           if (!item) {
             return errorHandler(req, res, next)(new Error(http.STATUS_CODES[404]))
           }
@@ -223,7 +223,7 @@ module.exports = function (model, options, excludedMap) {
         req.erm.document.set(key, cleanBody[key])
       }
 
-      req.erm.document.save().then((item) => model.deepPopulate(item, req._ermQueryOptions.deepPopulate || [])).then((item) => {
+      req.erm.document.save().then((item) => model.populate(item, req._ermQueryOptions.populate || [])).then((item) => {
         req.erm.result = item
         req.erm.statusCode = 200
 

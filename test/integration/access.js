@@ -255,11 +255,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -304,11 +304,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer/:id?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer/:id?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer/${customer._id}`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -352,11 +352,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -382,11 +382,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice/:id?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${invoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -497,11 +497,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /RepeatCustomer/:id?deepPopulate=account 200 - deepPopulate discriminator field from base schema', (done) => {
+      it('GET /RepeatCustomer/:id?populate=account 200 - populate discriminator field from base schema', (done) => {
         request.get({
           url: `${testUrl}/api/v1/RepeatCustomer/${repeatCustomer._id}`,
           qs: {
-            deepPopulate: 'account'
+            populate: 'account'
           },
           json: true
         }, (err, res, body) => {
@@ -519,11 +519,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200 - deepPopulated discriminator', (done) => {
+      it('GET /Invoice/:id?populate=customer 200 - populated discriminator', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${repeatCustomerInvoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -778,11 +778,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -819,11 +819,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer/:id?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer/:id?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer/${customer._id}`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -859,11 +859,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -886,11 +886,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice/:id?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${invoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -1016,11 +1016,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /RepeatCustomer/:id?deepPopulate=account 200 - deepPopulate discriminator field from base schema', (done) => {
+      it('GET /RepeatCustomer/:id?populate=account 200 - populate discriminator field from base schema', (done) => {
         request.get({
           url: `${testUrl}/api/v1/RepeatCustomer/${repeatCustomer._id}`,
           qs: {
-            deepPopulate: 'account'
+            populate: 'account'
           },
           json: true
         }, (err, res, body) => {
@@ -1038,11 +1038,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200 - deepPopulated discriminator', (done) => {
+      it('GET /Invoice/:id?populate=customer 200 - populated discriminator', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${repeatCustomerInvoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -1280,11 +1280,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -1319,11 +1319,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Customer/:id?deepPopulate=favorites.purchase.item,purchases.item,returns 200', (done) => {
+      it('GET /Customer/:id?populate=favorites.purchase.item,purchases.item,returns 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Customer/${customer._id}`,
           qs: {
-            deepPopulate: 'favorites.purchase.item,purchases.item,returns'
+            populate: 'favorites.purchase.item,purchases.item,returns'
           },
           json: true
         }, (err, res, body) => {
@@ -1357,11 +1357,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -1383,11 +1383,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200', (done) => {
+      it('GET /Invoice/:id?populate=customer 200', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${invoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {
@@ -1512,11 +1512,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /RepeatCustomer/:id?deepPopulate=account 200 - deepPopulate discriminator field from base schema', (done) => {
+      it('GET /RepeatCustomer/:id?populate=account 200 - populate discriminator field from base schema', (done) => {
         request.get({
           url: `${testUrl}/api/v1/RepeatCustomer/${repeatCustomer._id}`,
           qs: {
-            deepPopulate: 'account'
+            populate: 'account'
           },
           json: true
         }, (err, res, body) => {
@@ -1534,11 +1534,11 @@ module.exports = function (createFn, setup, dismantle) {
         })
       })
 
-      it('GET /Invoice/:id?deepPopulate=customer 200 - deepPopulated discriminator', (done) => {
+      it('GET /Invoice/:id?populate=customer 200 - populated discriminator', (done) => {
         request.get({
           url: `${testUrl}/api/v1/Invoice/${repeatCustomerInvoice._id}`,
           qs: {
-            deepPopulate: 'customer'
+            populate: 'customer'
           },
           json: true
         }, (err, res, body) => {

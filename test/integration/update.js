@@ -265,9 +265,9 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        describe('deepPopulated subdocument', () => {
-          it(`${method} /Invoice/:id 200 - update with deepPopulated customer`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('customer').exec().then((invoice) => {
+        describe('populated subdocument', () => {
+          it(`${method} /Invoice/:id 200 - update with populated customer`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('customer').exec().then((invoice) => {
               assert.notEqual(invoice.amount, 200)
               invoice.amount = 200
 
@@ -286,8 +286,8 @@ module.exports = function (createFn, setup, dismantle) {
             })
           })
 
-          it(`${method} /Invoice/:id 200 - update with deepPopulated products`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('products').exec().then((invoice) => {
+          it(`${method} /Invoice/:id 200 - update with populated products`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('products').exec().then((invoice) => {
               assert.notEqual(invoice.amount, 200)
               invoice.amount = 200
 
@@ -306,12 +306,12 @@ module.exports = function (createFn, setup, dismantle) {
             })
           })
 
-          it(`${method} /Invoice/:id?deepPopulate=customer,products 200 - update with deepPopulated customer`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('customer products').exec().then((invoice) => {
+          it(`${method} /Invoice/:id?populate=customer,products 200 - update with populated customer`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('customer products').exec().then((invoice) => {
               request({ method,
                 url: `${testUrl}/api/v1/Invoice/${invoice._id}`,
                 qs: {
-                  deepPopulate: 'customer,products'
+                  populate: 'customer,products'
                 },
                 json: invoice
               }, (err, res, body) => {
@@ -629,9 +629,9 @@ module.exports = function (createFn, setup, dismantle) {
           })
         })
 
-        describe('deepPopulated subdocument', () => {
-          it(`${method} /Invoice/:id 200 - update with deepPopulated customer`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('customer').exec().then((invoice) => {
+        describe('populated subdocument', () => {
+          it(`${method} /Invoice/:id 200 - update with populated customer`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('customer').exec().then((invoice) => {
               assert.notEqual(invoice.amount, 200)
               invoice.amount = 200
 
@@ -650,8 +650,8 @@ module.exports = function (createFn, setup, dismantle) {
             })
           })
 
-          it(`${method} /Invoice/:id 200 - update with deepPopulated products`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('products').exec().then((invoice) => {
+          it(`${method} /Invoice/:id 200 - update with populated products`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('products').exec().then((invoice) => {
               assert.notEqual(invoice.amount, 200)
               invoice.amount = 200
 
@@ -670,12 +670,12 @@ module.exports = function (createFn, setup, dismantle) {
             })
           })
 
-          it(`${method} /Invoice/:id?deepPopulate=customer,products 200 - update with deepPopulated customer`, (done) => {
-            db.models.Invoice.findById(invoice._id).deepPopulate('customer products').exec().then((invoice) => {
+          it(`${method} /Invoice/:id?populate=customer,products 200 - update with populated customer`, (done) => {
+            db.models.Invoice.findById(invoice._id).populate('customer products').exec().then((invoice) => {
               request({ method,
                 url: `${testUrl}/api/v1/Invoice/${invoice._id}`,
                 qs: {
-                  deepPopulate: 'customer,products'
+                  populate: 'customer,products'
                 },
                 json: invoice
               }, (err, res, body) => {
