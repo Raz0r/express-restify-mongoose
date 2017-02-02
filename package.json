@@ -58,6 +58,7 @@
   "scripts": {
     "lint": "standard",
     "compile": "babel src -d lib --source-maps both",
+    "install": "npm run compile",
     "prepublish": "in-publish && npm test || not-in-publish",
     "pretest": "npm run lint && npm run compile",
     "test": "npm run test-unit && npm run test-filter && npm run test-express && npm run test-restify",
